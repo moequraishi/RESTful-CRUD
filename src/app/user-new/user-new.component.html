@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <form #myForm="ngForm" action="/new" method="post">
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input [(ngModel)]="name" name="name" class="form-control" id="name" type="text">
+        </div>
+
+        <button (click)="newData(myForm)" class="btn btn-success">Create</button>
+      </form>
+    </div>
+  </div>
+</div>

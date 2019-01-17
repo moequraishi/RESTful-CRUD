@@ -1,0 +1,28 @@
+button.btn-primary,
+button.btn-success{
+  display: inline-block;
+  margin: 0 20px 20px 0;
+}
+h1 {
+  cursor: pointer;
+  &:focus {
+    outline: none;
+  }
+}
+.data-container {
+  max-width: 285px;
+  display: block;
+  margin: 0 auto;
+}
+.mongo-data {
+  margin-bottom: 20px;
+}
+.container {
+  margin-top: 40px;
+}
+
+.btn-container {
+  max-width: 325px;
+  display: block;
+  margin: 0 auto;
+}
