@@ -11,13 +11,23 @@ export class WebsocketService {
   // Our socket connection
   private socket;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.socket = io.connect('http://localhost:1337');
+  }
 
-  rtUpdate() {
-    this.socket = io('http://localhost:1337');
-    this.socket.emit('get-all');
+  testUpdate(data) {
+    return this.http.post('/updateTest', {message: data});
+  }
 
+  rtUpdate(id, data) {
+    return this.http.post('/update/' + id, data);
+  }
+
+  rtGet() {
     return this.http.get('/users');
+  }
+  rtGetAll() {
+    return this.http.get('/all');
   }
 
 }

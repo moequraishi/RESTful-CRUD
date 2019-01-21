@@ -1,37 +1,45 @@
-<div class="text-center" *ngIf="dynamicData">
-  <p changedData>{{dynamicData.message}}</p>
-</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="data-container" *ngIf="allData">
+      <h4>Static Data:</h4>
 
-<div class="data-container" *ngIf="allData">
-  <h4>Reply from RESTful API:</h4>
+      <hr>
 
-  <hr>
+      <div class="mongo-data" *ngFor="let x of allData">
 
-  <div class="mongo-data" *ngFor="let x of allData">
-
-    <div class="data-wrapper" id="{{x._id}}">
-      <p>
-        <label for="name"><strong>Name:</strong></label> {{x.name}}
-        <span
-          class="update font-weight-bold"
-          (click)="updateField($event, x._id)">
+        <div class="data-wrapper" id="{{x._id}}">
+          <p>
+            <label for="name"><strong>Name:</strong></label> {{x.name}}
+            <span
+              class="update font-weight-bold"
+              (click)="updateField($event, x._id)">
           [update]
       </span>
-        <input id="name" (keydown)="changeName($event, x._id)" class="form-control hide" type="text" [value]="x.name">
-      </p>
-      <p>
-        <strong>ID: </strong>{{x._id}}
-      </p>
-      <p>
-        <strong>Created at: </strong>{{x.createdAt | date}}
-      </p>
-      <p>
-        <strong>Updated at: </strong>{{x.updatedAt | date: 'medium' : 'PST'}}
-      </p>
+            <input id="name" (keydown)="changeName($event, x._id)" class="form-control hide" type="text" [value]="x.name">
+          </p>
+          <p>
+            <strong>ID: </strong>{{x._id}}
+          </p>
+          <p>
+            <strong>Created at: </strong>{{x.createdAt | date: 'medium' : 'PST'}}
+          </p>
+          <p>
+            <strong>Updated at: </strong>{{x.updatedAt | date: 'medium' : 'PST'}}
+          </p>
 
-      <button (click)="deleteData(x._id)" class="text-left btn btn-danger">Delete</button>
+          <button (click)="deleteData(x._id)" class="btn btn-danger">Delete</button>
+        </div>
+
+        <hr>
+      </div>
     </div>
+  </div>
 
-    <hr>
+  <div class="col-md-6">
+    <div class="data-container" *ngIf="dynamicData">
+      <h4>Real Time Data:</h4>
+      <hr>
+      <p changedData>{{dynamicData.message}}</p>
+    </div>
   </div>
 </div>

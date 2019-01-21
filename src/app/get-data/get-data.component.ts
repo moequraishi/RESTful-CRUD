@@ -2,6 +2,7 @@ import {Component, OnInit, OnDestroy, OnChanges, SimpleChanges, Renderer2, Eleme
 import {HttpService} from '../http.service';
 import {Subscription, interval} from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
+import * as io from 'socket.io-client';
 
 import { WebsocketService } from '../websocket.service';
 
@@ -15,10 +16,11 @@ import { WebsocketService } from '../websocket.service';
 })
 export class GetDataComponent implements OnInit, OnDestroy, OnChanges {
 
+  private socket;
+
   update = false;
 
   dataSubscription: Subscription;
-  sub: Subscription;
   dynamicData;
   allData;
 
@@ -26,15 +28,17 @@ export class GetDataComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(private httpService: HttpService,
               private renderer: Renderer2,
-              private el: ElementRef,
-              private sockService: WebsocketService) { }
+              private el: ElementRef) {
+  }
 
   ngOnInit() {
     this.isAlive = true;
     this.getAll();
-    this.dataSubscription = interval(1000).pipe(takeWhile(() => this.isAlive)).subscribe(v => {
+    this.getTestData();
+    this.dataSubscription = interval(2000).pipe(takeWhile(() => this.isAlive)).subscribe(v => {
       if (v) {
         this.getTestData();
+        // this.getAll();
       }
     });
   }
@@ -54,19 +58,6 @@ export class GetDataComponent implements OnInit, OnDestroy, OnChanges {
       this.allData = data;
       console.log('Results from Mongo:', this.allData);
     });
-  }
-  deleteData(id) {
-    const observable = this.httpService.deleteData(id);
-    observable.subscribe(data => {
-      console.log('Data deleted:', data);
-      this.getAll();
-    });
-  }
-  getTestData() {
-    const observable = this.httpService.readData();
-    observable.subscribe(data => {
-      this.dynamicData = data;
-    })
   }
 
   changeName(event, id) {
@@ -91,6 +82,22 @@ export class GetDataComponent implements OnInit, OnDestroy, OnChanges {
       e.target.classList.add('hide');
       e.target.nextSibling.classList.remove('hide');
     }
+  }
+
+  deleteData(id) {
+    const observable = this.httpService.deleteData(id);
+    observable.subscribe(data => {
+      console.log('Data deleted:', data);
+      this.getAll();
+    });
+  }
+
+  // Real Time Test Data
+  getTestData() {
+    const observable = this.httpService.readData();
+    observable.subscribe(data => {
+      this.dynamicData = data;
+    })
   }
 
 }

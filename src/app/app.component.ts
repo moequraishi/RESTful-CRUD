@@ -1,7 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import { HttpService } from './http.service';
-import { Subscription } from 'rxjs';
-import * as io from 'socket.io-client';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -9,27 +6,12 @@ import * as io from 'socket.io-client';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'RESTful Service';
-  dataObj;
+  title = 'M.E.A.N RESTful';
 
-  dataSubscription: Subscription;
-  dynamicData;
-
-  constructor(private httpService: HttpService) {
+  constructor() {
 
   }
 
   ngOnInit() {
-  }
-
-  readData() {
-    const observable = this.httpService.readData();
-    observable.subscribe(data => {
-      console.log(data);
-      this.dataObj = data;
-    });
-    this.dataSubscription = observable.subscribe(data => {
-      this.dynamicData = data;
-    });
   }
 }
