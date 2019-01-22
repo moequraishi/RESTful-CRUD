@@ -1,6 +1,7 @@
 const express = require('express'),
   bodyParser = require('body-parser'),
   path = require('path'),
+  cors = require('cors'),
   routes = require('./server/routes/routes'),
   app = express(),
   port = 1337;
@@ -8,6 +9,7 @@ const express = require('express'),
 app.set('dist', path.join(__dirname, 'dist/restful-crud'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(cors());
 app.use(express.static(path.join(__dirname, 'dist/restful-crud')));
 app.use(routes);
 
