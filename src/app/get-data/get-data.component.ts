@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, OnChanges, SimpleChanges, Renderer2, ElementRef, Directive} from '@angular/core';
+import {Component, OnInit, OnDestroy, Directive} from '@angular/core';
 import {HttpService} from '../http.service';
 import {Subscription, interval} from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
@@ -14,7 +14,7 @@ import { WebsocketService } from '../websocket.service';
 @Directive({
   selector: '[changedData]'
 })
-export class GetDataComponent implements OnInit, OnDestroy, OnChanges {
+export class GetDataComponent implements OnInit, OnDestroy {
 
   private socket;
 
@@ -26,15 +26,15 @@ export class GetDataComponent implements OnInit, OnDestroy, OnChanges {
 
   isAlive = false;
 
-  constructor(private httpService: HttpService,
-              private renderer: Renderer2,
-              private el: ElementRef) {
+  constructor(private httpService: HttpService) {
   }
 
   ngOnInit() {
     this.isAlive = true;
     this.getAll();
     this.getTestData();
+
+    // Subscribe and Initiate an RXJS Interval
     this.dataSubscription = interval(2000).pipe(takeWhile(() => this.isAlive)).subscribe(v => {
       if (v) {
         this.getTestData();
@@ -44,12 +44,10 @@ export class GetDataComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
+
+    // Stop the interval and unsubscribe
     this.isAlive = false;
     this.dataSubscription.unsubscribe();
-  }
-
-  ngOnChanges() {
-    this.renderer.setStyle(this.el.nativeElement, 'color', 'blue');
   }
 
   getAll() {

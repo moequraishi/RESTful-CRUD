@@ -1,5 +1,6 @@
 const Test = require('../models/dummy');
 
+// Create
 const create = (req, res) => {
   const newTest = new Test({name: req.body.name});
   newTest.save(function(err, data) {
@@ -11,6 +12,7 @@ const create = (req, res) => {
   });
 };
 
+// Read
 const read = (req, res) => {
   Test.find({}).sort('-updatedAt').exec(function (err, data) {
     if (err) {
@@ -22,11 +24,12 @@ const read = (req, res) => {
   });
 };
 
-// Test JSON Data
+// Read - Test JSON Data
 const readTest = (req, res) => {
   res.status(200).json({ message: 'Changed!' });
 };
 
+// Update
 const update = (req, res) => {
   console.log(req.body);
   Test.findOneAndUpdate({_id: req.params.id}, {
@@ -44,6 +47,7 @@ const update = (req, res) => {
   });
 };
 
+// Destroy
 const destroy = (req, res) => {
   Test.findOneAndDelete({_id: req.params.id}, (err, data) => {
     if (err) {
