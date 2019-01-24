@@ -13,16 +13,19 @@
             <span
               class="update font-weight-bold"
               (click)="updateField($event, x._id)">
-          [update]
-      </span>
+              [update]
+            </span>
             <input id="name" (keydown)="changeName($event, x._id)" class="form-control hide" type="text" [value]="x.name">
           </p>
+
           <p>
             <strong>ID: </strong>{{x._id}}
           </p>
+
           <p>
             <strong>Created at: </strong>{{x.createdAt | date: 'medium' : 'PST'}}
           </p>
+
           <p>
             <strong>Updated at: </strong>{{x.updatedAt | date: 'medium' : 'PST'}}
           </p>
@@ -36,10 +39,34 @@
   </div>
 
   <div class="col-md-6">
-    <div class="data-container" *ngIf="dynamicData">
+    <div class="data-container">
       <h4>Real Time Data:</h4>
-      <hr>
-      <p changedData>{{dynamicData.message}}</p>
+
+      <div class="data-wrapper" *ngFor="let b of rtData">
+        <p>
+          <label for="name"><strong>Name:</strong></label> {{b.name}}
+        </p>
+
+        <p>
+          <strong>ID: </strong>{{b._id}}
+        </p>
+
+        <p>
+          <strong>Created at: </strong>{{b.createdAt | date: 'medium' : 'PST'}}
+        </p>
+
+        <p>
+          <strong>Updated at: </strong>{{b.updatedAt | date: 'medium' : 'PST'}}
+        </p>
+
+        <hr>
+      </div>
+
     </div>
+    <!--<div class="data-container" *ngIf="dynamicData">-->
+      <!--<h4>Real Time Data:</h4>-->
+      <!--<hr>-->
+      <!--<p changedData>{{dynamicData.message}}</p>-->
+    <!--</div>-->
   </div>
 </div>

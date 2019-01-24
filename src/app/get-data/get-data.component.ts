@@ -23,6 +23,7 @@ export class GetDataComponent implements OnInit, OnDestroy {
   dataSubscription: Subscription;
   dynamicData;
   allData;
+  rtData:Object;
 
   isAlive = false;
 
@@ -33,12 +34,14 @@ export class GetDataComponent implements OnInit, OnDestroy {
     this.isAlive = true;
     this.getAll();
     this.getTestData();
+    this.getRealTime();
 
     // Subscribe and Initiate an RXJS Interval
-    this.dataSubscription = interval(2000).pipe(takeWhile(() => this.isAlive)).subscribe(v => {
+    this.dataSubscription = interval(1000).pipe(takeWhile(() => this.isAlive)).subscribe(v => {
       if (v) {
-        this.getTestData();
+        // this.getTestData();
         // this.getAll();
+        this.getRealTime();
       }
     });
   }
@@ -55,6 +58,14 @@ export class GetDataComponent implements OnInit, OnDestroy {
     observable.subscribe(data => {
       this.allData = data;
       console.log('Results from Mongo:', this.allData);
+    });
+  }
+
+  getRealTime() {
+    const observable = this.httpService.getAll();
+    observable.subscribe(data => {
+      this.rtData = data;
+      console.log('Real Time Results:', this.rtData);
     });
   }
 
@@ -90,7 +101,6 @@ export class GetDataComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Real Time Test Data
   getTestData() {
     const observable = this.httpService.readData();
     observable.subscribe(data => {
